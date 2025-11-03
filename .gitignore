@@ -68,7 +68,8 @@ Vocabulary/ORBvoc.txt
 build/
 
 lib/
-dataset/
+dataset/buggy
+dataset/kitti
 cmake_modules/
 cmake-build-debug/
 
