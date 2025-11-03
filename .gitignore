@@ -68,7 +68,7 @@ Vocabulary/ORBvoc.txt
 build/
 
 lib/
-
+dataset/
 cmake_modules/
 cmake-build-debug/
 

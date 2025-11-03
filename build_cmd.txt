@@ -1,0 +1,43 @@
+cd ~/test_bot/src/ORB_SLAM3
+rm -rf build
+mkdir build && cd build
+cmake .. -DOpenCV_DIR=/usr/lib/x86_64-linux-gnu/cmake/opencv4 -DCMAKE_BUILD_TYPE=Release
+make -j4
+
+
+
+
+cd ~/test_bot/src/ORB_SLAM3/Thirdparty/DBoW2
+rm -rf build
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j4
+
+cd ../../g2o
+rm -rf build
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j4
+
+cd ../../Sophus
+rm -rf build
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j4
+
+cd ~/test_bot/src/ORB_SLAM3
+rm -rf build
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j4
+
+
+
+
+
+
+./Examples/Monocular/mono_kitti ./Vocabulary/ORBvoc.txt ./Examples/Monocular/KITTI00.yaml ./dataset/kitti/seq/00/
