@@ -1,0 +1,72 @@
+%YAML:1.0
+
+Camera.type: "PinHole"
+
+# Intrinsics (from P0 matrix: P[0,0], P[1,1], P[0,2], P[1,2])
+Camera.fx: 606.2239990234
+Camera.fy: 605.96514858
+Camera.cx: 313.1816101074
+Camera.cy: 253.4064941406
+
+# Note: Distortion parameters (k1, k2, etc.) are set to zero because
+# ORB-SLAM3's KITTI example assumes the images are pre-rectified (undistorted)
+# which is usually the case when using the ROS CameraInfo P matrix.
+Camera.k1: 0.0
+Camera.k2: 0.0
+Camera.p1: 0.0
+Camera.p2: 0.0
+
+# Resolution - ASSUMED to be 640x480 for RealSense, please verify!
+Camera.width: 640
+Camera.height: 480
+Camera.fps: 30     # <--- IMPORTANT: Adjust this value to your camera’s actual FPS
+Camera.RGB: 1      # Intel RealSense Color is RGB (1)
+
+# Camera Baselines - only needed for Stereo/RGBD modes, included for context
+# Camera.bf: 0.0   # Baseline * fx (set to 0 for monocular)
+
+#--------------------------------------------------------------------------------------------
+# ORB Parameters (Standard values, adjust if tracking is poor)
+#--------------------------------------------------------------------------------------------
+
+# ORB Extractor: Number of features per image
+ORBextractor.nFeatures: 6000
+
+# ORB Extractor: Scale factor between levels in the scale pyramid
+ORBextractor.scaleFactor: 1.2
+
+# ORB Extractor: Number of levels in the scale pyramid
+ORBextractor.nLevels: 8
+
+# ORB Extractor: Fast threshold
+ORBextractor.iniThFAST: 20
+ORBextractor.minThFAST: 7
+
+#--------------------------------------------------------------------------------------------
+# Stereo and KITTI Specific Parameters
+#--------------------------------------------------------------------------------------------
+
+# Path to the KITTI style calibration file (calib.txt).
+# This tells the KITTI-specific executable how to find extrinsic TFs, if any.
+Kitti.CalibFile: "./dataset/buggy/seq/00/"
+
+# CRITICAL FIX: Tell the executable which Projection Matrix (P0, P1, etc.)
+# from calib.txt to use for this monocular stream. We use P0.
+Kitti.Camera: 0
+
+
+#--------------------------------------------------------------------------------------------
+# Viewer Parameters
+#--------------------------------------------------------------------------------------------
+Viewer.KeyFrameSize: 0.05
+Viewer.KeyFrameLineWidth: 1.0
+Viewer.GraphLineWidth: 0.9
+Viewer.PointSize: 2.0
+Viewer.CameraSize: 0.08
+Viewer.CameraLineWidth: 3.0
+Viewer.ViewpointX: 0.0
+Viewer.ViewpointY: -0.7
+Viewer.ViewpointZ: -3.5
+Viewer.ViewpointF: 500.0
+
+Viewer.bActivate: 0
