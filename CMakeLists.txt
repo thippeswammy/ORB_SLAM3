@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(ORB_SLAM3)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE Release)
@@ -40,7 +42,11 @@ MESSAGE(${OpenCV_VERSION})
 
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
-find_package(realsense2)
+# find_package(realsense2)
+#find_package(roscpp)
+#find_package(cv_bridge)
+#find_package(image_transport)
+#find_package(sensor_msgs)
 
 include_directories(
 ${PROJECT_SOURCE_DIR}
@@ -197,6 +203,10 @@ add_executable(mono_kitti
         Examples/Monocular/mono_kitti.cc)
 target_link_libraries(mono_kitti ${PROJECT_NAME})
 
+add_executable(mono_buggy
+        Examples/Monocular/mono_buggy.cc)
+target_link_libraries(mono_buggy ${PROJECT_NAME})
+
 add_executable(mono_euroc
         Examples/Monocular/mono_euroc.cc)
 target_link_libraries(mono_euroc ${PROJECT_NAME})
@@ -204,6 +214,10 @@ target_link_libraries(mono_euroc ${PROJECT_NAME})
 add_executable(mono_tum_vi
         Examples/Monocular/mono_tum_vi.cc)
 target_link_libraries(mono_tum_vi ${PROJECT_NAME})
+
+#add_executable(mono_stream
+ #       src/mono_stream.cc)
+#target_link_libraries(mono_stream ${PROJECT_NAME})
 
 if(realsense2_FOUND)
     add_executable(mono_realsense_t265
