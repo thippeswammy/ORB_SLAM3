@@ -74,6 +74,12 @@ int main(int argc, char **argv)
             cerr << endl << "Failed to load image at: " << vstrImageFilenames[ni] << endl;
             return 1;
         }
+        // Convert to grayscale if needed
+        cv::Mat imGray;
+        if (im.channels() == 3)
+            cv::cvtColor(im, imGray, cv::COLOR_RGB2GRAY);
+        else if (im.channels() == 4)
+            cv::cvtColor(im, imGray, cv::COLOR_RGBA2GRAY);
 
         if(imageScale != 1.f)
         {
