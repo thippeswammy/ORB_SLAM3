@@ -41,3 +41,4 @@ make -j4
 
 
 ./Examples/Monocular/mono_kitti ./Vocabulary/ORBvoc.txt ./Examples/Monocular/KITTI00.yaml ./dataset/kitti/seq/00/
+./Examples/Monocular/mono_buggy ./Vocabulary/ORBvoc.txt ./Examples/Monocular/buggy.yaml ./dataset/buggy/seq/00/
