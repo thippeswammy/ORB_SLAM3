@@ -48,7 +48,7 @@ ORBextractor.minThFAST: 7
 
 # Path to the KITTI style calibration file (calib.txt).
 # This tells the KITTI-specific executable how to find extrinsic TFs, if any.
-Kitti.CalibFile: "./dataset/buggy/seq/00/"
+Kitti.CalibFile: "./dataset/buggy/seq/Buggy1_sb_circles/"
 
 # CRITICAL FIX: Tell the executable which Projection Matrix (P0, P1, etc.)
 # from calib.txt to use for this monocular stream. We use P0.

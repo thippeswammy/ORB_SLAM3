@@ -1,4 +1,6 @@
 import os
+import csv
+from sensor_msgs.msg import Imu
 
 import cv2
 import numpy as np
@@ -14,13 +16,15 @@ from sensor_msgs.msg import Image
 
 # --- CONFIGURATION ---
 # NOTE: BAG_PATH must be the FOLDER containing the .db3 file
-BAG_PATH = "./../BUGGY_DATA/simple_data_1"
+BAG_PATH = "/media/thippe/SDV/Dataset/BUGGY_DATA_ROS/Buggy3_sb_port_calib"
 IMAGE_TOPIC = '/camera/color/image_raw'
 CALIB_TOPIC = '/camera/color/camera_info'
+IMU_TOPIC = '/imu/data'
 
-OUTPUT_DIR = "./dataset/buggy/seq/00"
+OUTPUT_DIR = "/media/thippe/SDV/Dataset/buggy/sequences/Buggy3_sb_port_calib"
 CALIB_FILE_PATH = os.path.join(OUTPUT_DIR, "calib.txt")
-TIMESTAMP_FILE_PATH = os.path.join(OUTPUT_DIR, 'timestamps.txt')
+TIMESTAMP_FILE_PATH = os.path.join(OUTPUT_DIR, 'times.txt')
+IMU_FILE_PATH = os.path.join(OUTPUT_DIR, 'imu_data.csv')
 
 
 # ---------------------
@@ -157,6 +161,79 @@ def extract_calib(bag_path, calib_topic, output_file):
     print(f"P0 Matrix (Projection):\n{P}")
 
 
+def extract_imu(bag_path, imu_topic, output_csv_file):
+    """
+    Reads a ROS 2 bag, extracts IMU data, and saves it to a CSV file.
+    """
+    print(f"\n--- Starting IMU Extraction ---")
+    print(f"Reading from topic: {imu_topic}")
+
+    reader = initialize_reader(bag_path)
+    if reader is None:
+        return
+
+    # Filter messages to only read the IMU topic
+    topic_filter = StorageFilter(topics=[imu_topic])
+    reader.set_filter(topic_filter)
+
+    if not reader.has_next():
+        print(f"Error: No messages found on topic '{imu_topic}'.")
+        print("Please check the IMU_TOPIC variable in the script.")
+        return
+
+    # 1. Setup CSV file
+    os.makedirs(os.path.dirname(output_csv_file), exist_ok=True)
+
+    # Define CSV header
+    header = [
+        'header_stamp_sec',
+        'orientation_x', 'orientation_y', 'orientation_z', 'orientation_w',
+        'angular_vel_x', 'angular_vel_y', 'angular_vel_z',
+        'linear_accel_x', 'linear_accel_y', 'linear_accel_z'
+    ]
+
+    msg_count = 0
+    with open(output_csv_file, 'w', newline='') as csv_f:
+        writer = csv.writer(csv_f)
+        writer.writerow(header)
+
+        # 2. Process Messages
+        while reader.has_next():
+            topic, data, timestamp_ns = reader.read_next()
+
+            # Deserialize the message data
+            try:
+                msg = deserialize_message(data, Imu)
+            except Exception as e:
+                print(f"Error deserializing IMU message: {e}")
+                continue
+
+            # Extract absolute timestamp from message header
+            t_header_sec = msg.header.stamp.sec + msg.header.stamp.nanosec / 1e9
+
+            # Extract data
+            o = msg.orientation
+            w = msg.angular_velocity
+            a = msg.linear_acceleration
+
+            # Write data row
+            row = [
+                f"{t_header_sec:.10f}",
+                o.x, o.y, o.z, o.w,
+                w.x, w.y, w.z,
+                a.x, a.y, a.z
+            ]
+            writer.writerow(row)
+
+            msg_count += 1
+            if msg_count % 500 == 0:
+                print(f"Processed {msg_count} IMU messages...", end='\r')
+
+    print(f"\n--- IMU Extraction Complete! ---")
+    print(f"Total IMU messages extracted: {msg_count}")
+    print(f"IMU data saved to: {output_csv_file}")
+
+
 if __name__ == '__main__':
     # Initialize ROS 2 context
     rclpy.init(args=None)
@@ -164,5 +241,5 @@ if __name__ == '__main__':
     # Run the extraction for Calibration and Data
     extract_calib(BAG_PATH, CALIB_TOPIC, CALIB_FILE_PATH)
     extract_data(BAG_PATH, IMAGE_TOPIC, OUTPUT_DIR, TIMESTAMP_FILE_PATH)
-
+    extract_imu(BAG_PATH, IMU_TOPIC, IMU_FILE_PATH)
     rclpy.shutdown()

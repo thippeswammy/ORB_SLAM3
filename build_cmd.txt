@@ -37,8 +37,24 @@ make -j4
 
 
 
-
-
-
 ./Examples/Monocular/mono_kitti ./Vocabulary/ORBvoc.txt ./Examples/Monocular/KITTI00.yaml ./dataset/kitti/seq/00/
+
 ./Examples/Monocular/mono_buggy ./Vocabulary/ORBvoc.txt ./Examples/Monocular/buggy.yaml ./dataset/buggy/seq/00/
+
+./Examples/Monocular/mono_buggy ./Vocabulary/ORBvoc.txt ./Examples/Monocular/buggy.yaml /media/thippe/SDV/Dataset/buggy/sequences/09/
+
+00 -> 
+./Examples/Monocular/mono_buggy ./Vocabulary/ORBvoc.txt ./Examples/Monocular/buggy.yaml /media/thippe/SDV/Dataset/buggy/sequences/Buggy1_sb_circles/
+
+01 -> 
+./Examples/Monocular/mono_buggy ./Vocabulary/ORBvoc.txt ./Examples/Monocular/buggy.yaml /media/thippe/SDV/Dataset/buggy/sequences/Buggy2_sb_main_gate_circle/
+
+
+./Examples/Stereo-Inertial/stereo_inertial_tum_vi \
+    Vocabulary/ORBvoc.txt \
+    Examples/Stereo-Inertial/TUM-VI.yaml \
+    ./dataset/TUM/dataset-corridor4_512_16/dso/cam0/images \
+    ./dataset/TUM/dataset-corridor4_512_16/dso/cam1/images \
+    ./Examples/Stereo-Inertial/TUM_TimeStamps/dataset-corridor4_512.txt \
+    ./Examples/Stereo-Inertial/TUM_IMU/dataset-corridor4_512.txt \
+    ./trajectory_corridor4.txt

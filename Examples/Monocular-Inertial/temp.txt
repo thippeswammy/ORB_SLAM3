@@ -1,0 +1,8 @@
+./Examples/Stereo-Inertial/stereo_inertial_tum_vi \
+    Vocabulary/ORBvoc.txt \
+    Examples/Stereo-Inertial/TUM-VI.yaml \
+    ./dataset/TUM/dataset-corridor4_512_16/dso/cam0/images \
+    ./dataset/TUM/dataset-corridor4_512_16/dso/cam1/images \
+    ./Examples/Stereo-Inertial/TUM_TimeStamps/dataset-corridor4_512.txt \
+    ./Examples/Stereo-Inertial/TUM_IMU/dataset-corridor4_512.txt \
+    ./trajectory_corridor4.txt
