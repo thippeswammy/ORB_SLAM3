@@ -16,6 +16,7 @@ from utils import drawFrameFeatures, drawTrajectory
 
 
 def plot_3d_trajectories_interactive(estimated, groundtruth, title="3D Trajectory Comparison"):
+    """Plots interactive 3D trajectories for estimated and ground truth data."""
     estimated = np.asarray(estimated, dtype=np.float32)
     groundtruth = np.asarray(groundtruth, dtype=np.float32)
 
@@ -52,6 +53,14 @@ def plot_3d_trajectories_interactive(estimated, groundtruth, title="3D Trajector
 
 
 def rot2quat(R):
+    """Convert a rotation matrix to a quaternion.
+    
+    Args:
+        R: A 3x3 rotation matrix.
+    
+    Returns:
+        A tuple representing the quaternion in the order (qw, qx, qy, qz).
+    """
     from scipy.spatial.transform import Rotation
     r = Rotation.from_matrix(R)
     q = r.as_quat()  # [qx, qy, qz, qw]
@@ -59,6 +68,7 @@ def rot2quat(R):
 
 
 def compute_absolute_trajectory_error(estimated, groundtruth):
+    """Compute the absolute trajectory error between estimated and groundtruth values."""
     estimated = np.asarray(estimated)
     groundtruth = np.asarray(groundtruth)
 
