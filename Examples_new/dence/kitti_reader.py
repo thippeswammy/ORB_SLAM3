@@ -21,6 +21,11 @@ class DatasetReaderKITTI:
             print("Found {} images in {}".format(self._numFrames, self._imagesPath))
 
     def readFrame(self, index=0):
+        """Reads and resizes a frame from the specified image path.
+        
+        Args:
+            index (int): The index of the frame to read.
+        """
         if index >= self._numFrames:
             raise Exception("Cannot read frame number {} from {}".format(index, self._imagesPath))
 
@@ -29,6 +34,7 @@ class DatasetReaderKITTI:
         return img
 
     def readCameraMatrix(self):
+        """Reads the camera matrix from a calibration file."""
         cameraFile = os.path.join(self._datasetPath, "calib.txt")
         with open(cameraFile) as f:
             firstLine = f.readlines()[0][4:]
@@ -48,6 +54,7 @@ class DatasetReaderKITTI:
             return K
 
     def readGroundtuthPosition(self, frameId):
+        """Reads the ground truth position from a file for a given frame ID."""
         groundtruthFile = os.path.join(self._datasetPath, "poses.txt")
         with open(groundtruthFile) as f:
             lines = f.readlines()
@@ -86,7 +93,9 @@ class DatasetReaderKITTI:
             return position, scale, R_curr, R_prev
 
     def getFramesCount(self):
+        """Returns the number of frames."""
         return self._numFrames
 
     def getDatasetPath(self):
+        """Returns the dataset path."""
         return self._datasetPath
