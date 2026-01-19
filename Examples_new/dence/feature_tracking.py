@@ -16,6 +16,19 @@ class FeatureTracker:
     """
 
     def calcWrongFeatureIndices(self, features, frame, status):
+        """Identify indices of features that are out of bounds.
+        
+        This function checks each feature point in the `features` list to determine if
+        it lies within the valid bounds of the given `frame`. If a feature point is
+        found to be out of bounds (either negative or exceeding the frame dimensions),
+        its corresponding status is updated to indicate it as invalid. The function
+        then returns the indices of all features that are marked as invalid.
+        
+        Args:
+            features: A list of feature points, where each point is a tuple of (x, y) coordinates.
+            frame: A numpy array representing the frame dimensions.
+            status: A list or array indicating the validity of each feature point.
+        """
         status_ = status.copy()
         for idx, pt in enumerate(features):
             if pt[0] < 0 or pt[1] < 0 or pt[0] > frame.shape[1] or pt[1] > frame.shape[0]:
