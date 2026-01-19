@@ -3,6 +3,13 @@ import numpy as np
 
 
 def plot_2d_trajectories(estimated, groundtruth, index):
+    """Plots 2D trajectories for estimated and groundtruth data.
+    
+    Args:
+        estimated: Array of estimated trajectory points.
+        groundtruth: Array of groundtruth trajectory points.
+        index: Index for the plot title and filename.
+    """
     fig, axs = plt.subplots(1, 3, figsize=(18, 5))
     fig.suptitle(f"2D Projections of Trajectory Comparison [Index {index}]", fontsize=14)
 
